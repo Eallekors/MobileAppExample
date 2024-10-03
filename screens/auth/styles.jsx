@@ -1,6 +1,17 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+    container: {
+        padding: 24,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: '100%',
+       
+    },
+    titleContainer: {
+        marginVertical: 54
+    },
     image: {
         width: '100%',
         height:200
@@ -14,7 +25,16 @@ export const styles = StyleSheet.create({
         color: "#FCA34D",
         textDecorationLine: "underline"
     },
-    container: {
+    footerText: {
+        color: '#4F63AC',
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: 30,
+        paddingVertical: 20,
+        paddingHorizontal: 8,
+        borderRadius: 8,
         
     }
+    
 })
