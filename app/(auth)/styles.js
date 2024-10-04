@@ -17,6 +17,9 @@ export const styles = StyleSheet.create({
     agreeTextBold: {
         fontWeight: 'bold',
     },
+    button: {
+      marginVertical: 20  
+    },
     AndroidSafeArea: {
         flex: 1,
         backgroundColor: "white",

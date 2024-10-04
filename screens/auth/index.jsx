@@ -16,7 +16,7 @@ const Splash = () => {
                 <Text style={styles.title}>Here </Text>
             </View>
             
-            <Button title="Sign up" />
+            <Button title="Sign up" where="/sign-up"/>
 
             <Pressable>
                 <Text style={styles.footerText}>Sign In</Text>

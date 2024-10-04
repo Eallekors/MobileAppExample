@@ -3,15 +3,16 @@ import { styles } from "./styles";
 import React from "react";
 import { Pressable,Text, TouchableOpacity } from "react-native";
 
-const Button = ({title}) => {
+const Button = ({title, where, style}) => {
 
     const handlePress = () => {
-        console.log('button is clicked')
-        router.push('/sign-up');
+        if (where){
+        router.push(where); 
+        }
     }
 
     return(
-        <TouchableOpacity activeOpacity={0.6} onPress={handlePress} style={styles.container}>
+        <TouchableOpacity activeOpacity={0.6} onPress={handlePress} style={[styles.container, style]}>
             <Text style={styles.title}>{title}</Text>
         </TouchableOpacity>
     )
