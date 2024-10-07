@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.erki.allekors.MobileAppExample"
     },
     "web": {
       "bundler": "metro",
@@ -28,10 +29,7 @@
     },
     "plugins": [
       "expo-router",
-      "@react-native-google-signin/google-signin",
-        {
-          "UrlScheme": "413630912288-e0qrpkco972e4f7b1lobr5evehh6almv.apps.googleusercontent.com"
-        }
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true
