@@ -7,7 +7,7 @@ import {
 export default function() {
 GoogleSignin.configure({
     scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-    //webClientId: '<FROM DEVELOPER CONSOLE>', // client ID of type WEB for your server (needed to verify user ID and offline access)
+    webClientId: '947515615880-1dp1bq34dhvko2g46d4neujp2minp00k.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
    });
 
    return (
