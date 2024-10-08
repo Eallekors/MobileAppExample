@@ -9,7 +9,7 @@ import Button from "../../components/Button";
 import Separator from "../../components/Separator";
 import GoogleLogin from "../../components/GoogleLogin";
 
-const  Signup = () => {
+const  Signin = () => {
   const [checked, setChecked] = useState(false)
   return (
     <View style={styles.AndroidSafeArea}>
@@ -29,4 +29,4 @@ const  Signup = () => {
   );
 }
 
-export default Signup
+export default Signin
