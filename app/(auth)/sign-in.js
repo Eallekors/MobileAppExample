@@ -7,7 +7,6 @@ import Input from "../../components/Input";
 import Checkbox from "../../components/Checkbox";
 import Button from "../../components/Button";
 import Separator from "../../components/Separator";
-import GoogleLogin from "../../components/GoogleLogin";
 
 const  Signin = () => {
   const [checked, setChecked] = useState(false)
@@ -19,8 +18,8 @@ const  Signin = () => {
         <Input isPassword label="Password" placeholder="******"/>
        
         <Button style={styles.button} title="Sign in"/>
-        <Separator text="Or sign in with" />
-        <GoogleLogin />
+        <Separator />
+      
         <Text style={styles.footerText}>Don't have an account?
           <Text style={styles.footerLink}>Sign Up</Text>
         </Text>
