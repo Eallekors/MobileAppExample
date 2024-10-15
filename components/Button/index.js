@@ -9,6 +9,10 @@ const Button = ({title, where, style}) => {
         if (where){
         router.push(where); 
         }
+
+        if(where == '/home'){
+            console.log('home');
+        }
     }
 
     return(
