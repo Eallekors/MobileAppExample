@@ -1,8 +1,9 @@
 import React from "react";
 import {Text, View, Image, Pressable} from "react-native";
-import { router } from "expo-router";
+
 import Button from "../../components/Button";
 import { styles } from "./styles";
+import { router } from "expo-router";
 
 
 const Splash = () => {
