@@ -13,7 +13,7 @@ const  Signin = () => {
   return (
     <View style={styles.AndroidSafeArea}>
         <View style={styles.container}>
-        <AuthHeader title="Sign In" />
+        <AuthHeader title="Sign In" targetRoute="/splash"/>
         <Input label="Email" placeholder="example@gmail.com"/>
         <Input isPassword label="Password" placeholder="******"/>
        
