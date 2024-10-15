@@ -1,6 +1,6 @@
 import React from "react";
 import {Text, View, Image, Pressable} from "react-native";
-
+import { router } from "expo-router";
 import Button from "../../components/Button";
 import { styles } from "./styles";
 
@@ -18,8 +18,8 @@ const Splash = () => {
             
             <Button title="Sign up" where="/sign-up"/>
 
-            <Pressable>
-                <Text style={styles.footerText}>Sign In</Text>
+            <Pressable onPress={() => router.push("/sign-in")}>
+                <Text style={styles.footerText} >Sign In</Text>
             </Pressable>
         </View>
     )

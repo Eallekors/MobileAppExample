@@ -26,6 +26,15 @@ export const styles = StyleSheet.create({
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight+10 : 0,
         paddingHorizontal: 15
        
+    },
+    footerText: {
+        color: colors.blue,
+        marginTop: 10,
+        marginBottom: 56,
+        textAlign: 'center'
+    },
+    footerLink: {
+        fontWeight: 'bold'
     }
    
 })
