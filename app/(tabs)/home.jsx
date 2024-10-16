@@ -1,10 +1,11 @@
-import { Text, View } from 'react-native'
+import { SafeAreaView, Text, View } from 'react-native'
+import SafeViewAndroid from '../SafeViewAndroid'
 import React from 'react'
 const Home = () => {
   return (
-    <View>
+    <SafeAreaView style={SafeViewAndroid.AndroidSafeArea}>
       <Text>Home</Text>
-    </View>
+    </SafeAreaView>
   )
 }
 export default Home
