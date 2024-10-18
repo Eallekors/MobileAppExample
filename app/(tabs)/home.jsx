@@ -11,9 +11,28 @@ import ProductHomeItem from '../../components/ProductHomeItem'
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState();
+  const [keyword, setKeyword] = useState();
   const [selectedProducts, setSelectedProducts] = useState(products)
+  
 
   useEffect(() => {
+    if(selectedCategory && !keyword){
+      const updatedSelectedProducts = products.filter((product) =>
+        product?.category === selectedCategory)
+      setSelectedProducts(updatedSelectedProducts)
+    } else if(selectedCategory && keyword){
+      const updatedSelectedProducts = products.filter((product) =>
+        product?.category === selectedCategory && product?.title?.includes(keyword))
+      setSelectedProducts(updatedSelectedProducts)
+    } else if(!selectedCategory && keyword){
+      const updatedSelectedProducts = products.filter((product) =>
+      product?.title?.includes(keyword))
+      setSelectedProducts(updatedSelectedProducts)
+    } else if(!keyword && !selectedCategory){
+      setSelectedProducts(products)
+    }
+  }, [selectedCategory, keyword])
+  /* useEffect(() => {
     if(selectedCategory){
       const updatedSelectedProducts = products.filter((product) =>
         product?.category === selectedCategory)
@@ -21,7 +40,7 @@ const Home = () => {
     }else{
       setSelectedProducts(products)
     }
-  }, [selectedCategory])
+  }, [selectedCategory]) */
 
   const renderCategoryItem = ({item}) => {
     //console.log('item => ', item)
@@ -44,7 +63,7 @@ const Home = () => {
   return (
     <SafeAreaView style={SafeViewAndroid.AndroidSafeArea}>
       <View style={styles.container}>
-        <Header showSearch={true} title="Find All You Need"/>
+        <Header showSearch={true} onSearchKeyword={setKeyword} keyword={keyword} title="Find All You Need"/>
         <FlatList 
         showsHorizontalScrollIndicator={false}
         style={styles.list}
