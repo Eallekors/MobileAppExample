@@ -4,10 +4,11 @@ import { colors } from "../../utils/colors";
 
 export const styles = StyleSheet.create({
     container: {
+        marginVertical: 12, // Depends on phone???
         marginHorizontal: 8,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     title: {
         color: colors.grey

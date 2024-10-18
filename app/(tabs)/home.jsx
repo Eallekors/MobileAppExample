@@ -1,17 +1,43 @@
 import { SafeAreaView, Text, View, FlatList } from 'react-native'
 import SafeViewAndroid from '../SafeViewAndroid'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { styles } from './styles'
 import { categories } from '../../data/categories'
+import { products } from '../../data/products'
 import CategoryBox from '../../components/CategoryBox'
+import ProductHomeItem from '../../components/ProductHomeItem'
 
 
 const Home = () => {
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedProducts, setSelectedProducts] = useState(products)
+
+  useEffect(() => {
+    if(selectedCategory){
+      const updatedSelectedProducts = products.filter((product) =>
+        product?.category === selectedCategory)
+      setSelectedProducts(updatedSelectedProducts)
+    }else{
+      setSelectedProducts(products)
+    }
+  }, [selectedCategory])
+
   const renderCategoryItem = ({item}) => {
     //console.log('item => ', item)
     return (
-      <CategoryBox title={item?.title} image={item?.image} />
+      <CategoryBox 
+      onPress={() => setSelectedCategory(item?.id)}
+      isSelected={item.id === selectedCategory}
+      title={item?.title} 
+      image={item?.image} />
+    )
+  }
+
+  const renderProductItem = ({item}) => {
+    //console.log('item =>' , item)
+    return (
+      <ProductHomeItem {...item}/>
     )
   }
 
@@ -27,7 +53,12 @@ const Home = () => {
         renderItem={renderCategoryItem} 
         keyExtractor={(item, index) => String(index)} 
         />
-        <Text>Home</Text>
+        <FlatList 
+        numColumns={2}
+        data={selectedProducts} 
+        renderItem={renderProductItem} 
+        keyExtractor={(item) => String(item.id)} 
+        ListFooterComponent={<View style={{height: 250}}/>}/>
       </View>
     </SafeAreaView>
   )
