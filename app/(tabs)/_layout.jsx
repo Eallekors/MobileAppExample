@@ -32,8 +32,8 @@ export default function TabsLayout() {
             <Image
               source={
                 focused
-                  ? require('../../assets/icons/bookmark_focused.png')
-                  : require('../../assets/icons/bookmark.png')
+                  ? require('../../assets/icons/favorites_focused.png')
+                  : require('../../assets/icons/favorites.png')
               }
               style={{ width: 24, height: 24 }}
             />
