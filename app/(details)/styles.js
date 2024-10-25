@@ -52,6 +52,17 @@ export const styles = StyleSheet.create({
         width: 34,
         height: 34
     },
+    backContainer:{
+        backgroundColor: colors.white,
+        padding: 10,
+        margin: 24,
+        borderRadius: 8,
+        position: 'absolute'
+    },
+    backIcon:{
+        width: 20,
+        height: 20
+    },
     button:{
         flex: 1
     }

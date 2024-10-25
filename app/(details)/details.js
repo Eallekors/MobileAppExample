@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, ScrollView, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles} from "./styles";
-import { useGlobalSearchParams, useLocalSearchParams } from 'expo-router';
+import { router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router';
 import Button from "../../components/Button";
 
 const ProductDetails = () => {
@@ -10,6 +10,10 @@ const ProductDetails = () => {
     const product = JSON.parse(details)
     console.log('Product => ' , product)
     console.log(product)
+
+    const onBackPress = () => {
+        router.back();
+    }
     return (
         <SafeAreaView style={styles.save}>
             <ScrollView>
@@ -19,6 +23,9 @@ const ProductDetails = () => {
                     <Text style={styles.price}>{product.price}</Text>
                     <Text style={styles.description}>{product.description}</Text>
                 </View>
+                <Pressable onPress={onBackPress} style={styles.backContainer}>
+                    <Image style={styles.backIcon} source={require("../../assets/icons/back.png")}/>
+                </Pressable>
             </ScrollView>
             <View style={styles.footer}>
                 <Pressable>

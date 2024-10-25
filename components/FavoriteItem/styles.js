@@ -6,7 +6,7 @@ const { width } = Dimensions.get('window')
 
 export const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 24,
+        marginHorizontal: 12,
         paddingVertical: 16,
         flexDirection: 'row',
         borderBottomWidth: 1,
