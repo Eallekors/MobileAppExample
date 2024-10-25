@@ -1,17 +1,30 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles} from "./styles";
 import { useGlobalSearchParams, useLocalSearchParams } from 'expo-router';
+import Button from "../../components/Button";
 
 const ProductDetails = () => {
     const { details } = useLocalSearchParams();
     const product = JSON.parse(details)
     console.log('Product => ' , product)
+    console.log(product)
     return (
-        <SafeAreaView>
-            <View style={styles.container}>
-                <Text>{product.title}</Text>
+        <SafeAreaView style={styles.save}>
+            <ScrollView>
+                <Image style={styles.image} source={{uri: product.image}}/>
+                <View style={styles.content}>
+                    <Text style={styles.title}>{product.title}</Text>
+                    <Text style={styles.price}>{product.price}</Text>
+                    <Text style={styles.description}>{product.description}</Text>
+                </View>
+            </ScrollView>
+            <View style={styles.footer}>
+                <Pressable>
+                    <Image style={styles.bookmarkContainer} source={require('../../assets/icons/bookmark.png')}/>
+                </Pressable>
+                <Button style={styles.button} title="Contact Seller"/>
             </View>
         </SafeAreaView>
     )

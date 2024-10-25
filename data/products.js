@@ -11,7 +11,8 @@ export const products = [
         title: 'Wood Mini Table',
         image: 'https://www.woods-furniture.co.uk/images/products/standard/10470_26339.jpg',
         category: 2,
-        price: '$ 25.00'
+        price: '$ 25.00',
+        description: 'Minimal Stand is made of by natural wood. The design that is very simple and minimal. This is truly one of the best furnitures in any family for now. With 3 different colors, you can easily select the best match for your home.'
     },
     {
         id: 3,

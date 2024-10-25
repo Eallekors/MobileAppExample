@@ -18,7 +18,8 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     button: {
-      marginVertical: 20  
+      marginVertical: 20,
+    
     },
     AndroidSafeArea: {
         flex: 1,
