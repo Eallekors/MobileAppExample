@@ -7,6 +7,7 @@ import { categories } from '../../data/categories'
 import { products } from '../../data/products'
 import CategoryBox from '../../components/CategoryBox'
 import ProductHomeItem from '../../components/ProductHomeItem'
+import { router } from 'expo-router'
 
 
 const Home = () => {
@@ -54,9 +55,17 @@ const Home = () => {
   }
 
   const renderProductItem = ({item}) => {
-    //console.log('item =>' , item)
+    const onProductPress = (product) => {
+      router.push({
+        pathname: '/details',
+        params: { details: JSON.stringify(product) },
+      });
+     //console.log('item =>' , product)
+    }
+    
     return (
-      <ProductHomeItem {...item}/>
+      <ProductHomeItem onPress={() => onProductPress(item)}
+      {...item}/>
     )
   }
 
