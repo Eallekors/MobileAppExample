@@ -1,4 +1,5 @@
-import { SafeAreaView, Text, View, FlatList } from 'react-native'
+import { Text, View, FlatList } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import SafeViewAndroid from '../SafeViewAndroid'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
@@ -70,7 +71,7 @@ const Home = () => {
   }
 
   return (
-    <SafeAreaView style={SafeViewAndroid.AndroidSafeArea}>
+    <SafeAreaView style={{ backgroundColor:'#fff'}}>
       <View style={styles.container}>
         <Header showSearch={true} onSearchKeyword={setKeyword} keyword={keyword} title="Find All You Need"/>
         <FlatList 

@@ -5,6 +5,7 @@ import { colors } from "../../utils/colors";
 export const styles = StyleSheet.create({
     container: {
         padding: 24,
+        flex: 1
     },
     list: {
         paddingVertical: 24
@@ -18,5 +19,8 @@ export const styles = StyleSheet.create({
     email:{
         fontSize: 14,
         color: colors.grey
+    },
+    content: {
+        flex: 1
     }
 })

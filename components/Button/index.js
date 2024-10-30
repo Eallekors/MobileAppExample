@@ -13,9 +13,7 @@ const Button = ({title, where, style, onPress}) => {
         router.push(where); 
         }
 
-        if(where == '/home'){
-            console.log('home');
-        }
+       
     }
 
     return(
