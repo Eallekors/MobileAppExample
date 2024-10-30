@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView, Image, Pressable } from "react-native";
+import { View, Text, ScrollView, Image, Pressable, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles} from "./styles";
 import { router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router';
@@ -8,11 +8,20 @@ import ImageCarusel from "../../components/ImageCarusel"
 const ProductDetails = () => {
     const { details } = useLocalSearchParams();
     const product = JSON.parse(details)
-    console.log('Product => ' , product)
-    console.log(product)
 
     const onBackPress = () => {
         router.back();
+    }
+
+    const onContact = () => {
+       
+        //phone call
+        let phone = 'real phone number'
+        Linking.openURL(`tel:${phone}`)
+        //console.log(phone);
+        //email
+        let email = 'real email'
+        Linking.openURL(`mailto:${email}`)
     }
     return (
         <SafeAreaView style={styles.save}>
@@ -36,7 +45,7 @@ const ProductDetails = () => {
                 <Pressable>
                     <Image style={styles.bookmarkContainer} source={require('../../assets/icons/bookmark.png')}/>
                 </Pressable>
-                <Button style={styles.button} title="Contact Seller"/>
+                <Button onPress={onContact} style={styles.button} title="Contact Seller"/>
             </View>
         </SafeAreaView>
     )

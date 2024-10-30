@@ -3,9 +3,12 @@ import { styles } from "./styles";
 import React from "react";
 import { Pressable,Text, TouchableOpacity } from "react-native";
 
-const Button = ({title, where, style}) => {
+const Button = ({title, where, style, onPress}) => {
 
     const handlePress = () => {
+        if (onPress) {
+            onPress(); // Trigger the external onPress if provided
+        }
         if (where){
         router.push(where); 
         }
