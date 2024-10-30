@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { styles} from "./styles";
 import { router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router';
 import Button from "../../components/Button";
-
+import ImageCarusel from "../../components/ImageCarusel"
 const ProductDetails = () => {
     const { details } = useLocalSearchParams();
     const product = JSON.parse(details)
@@ -17,7 +17,12 @@ const ProductDetails = () => {
     return (
         <SafeAreaView style={styles.save}>
             <ScrollView>
-                <Image style={styles.image} source={{uri: product.image}}/>
+                {product?.images?.length ? (
+                    <ImageCarusel images={product?.images} />
+                ) : (
+                    <Image style={styles.image} source={{uri: product.image}}/>
+                )}
+                
                 <View style={styles.content}>
                     <Text style={styles.title}>{product.title}</Text>
                     <Text style={styles.price}>{product.price}</Text>
