@@ -7,14 +7,13 @@ import Input from "../../components/Input";
 import Checkbox from "../../components/Checkbox";
 import Button from "../../components/Button";
 import Separator from "../../components/Separator";
-import GoogleLogin from "../../components/GoogleLogin";
 
 const  Signup = () => {
   const [checked, setChecked] = useState(false)
   return (
     <View style={styles.AndroidSafeArea}>
         <View style={styles.container}>
-        <AuthHeader title="Sign Up" />
+        <AuthHeader title="Sign Up" targetRoute="/splash" />
         <Input label="Name" placeholder="John Doe"/>
         <Input label="Email" placeholder="example@gmail.com"/>
         <Input isPassword label="Password" placeholder="******"/>
@@ -23,8 +22,8 @@ const  Signup = () => {
           <Text style={styles.agreeText}>I agree with <Text style={styles.agreeTextBold}>Terms</Text> & <Text style={styles.agreeTextBold}>Privacy</Text></Text>
         </View>
         <Button style={styles.button} title="Sign in"/>
-        <Separator text="Or sign up with" />
-        <GoogleLogin />
+        <Separator  />
+       
         <Text style={styles.footerText}>Already have an account?
           <Text style={styles.footerLink}>Sign In</Text>
         </Text>

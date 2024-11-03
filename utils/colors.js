@@ -5,5 +5,7 @@ export const colors = {
     black: "#000000",
     grey: "#8D9BB5",
     lightGray: "#DADADA",
-    darkGray: "#3F4A59"
+    darkGray: "#3F4A59",
+    textGray: "#606060",
+    borderColor: "#F0F0F0"
 } 
