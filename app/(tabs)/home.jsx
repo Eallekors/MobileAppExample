@@ -34,15 +34,7 @@ const Home = () => {
       setSelectedProducts(products)
     }
   }, [selectedCategory, keyword])
-  /* useEffect(() => {
-    if(selectedCategory){
-      const updatedSelectedProducts = products.filter((product) =>
-        product?.category === selectedCategory)
-      setSelectedProducts(updatedSelectedProducts)
-    }else{
-      setSelectedProducts(products)
-    }
-  }, [selectedCategory]) */
+  
 
   const renderCategoryItem = ({item}) => {
     //console.log('item => ', item)

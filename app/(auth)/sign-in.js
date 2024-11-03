@@ -1,33 +1,60 @@
-import React, { useState } from "react";
-import { View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Alert } from "react-native";
 import AuthHeader from "../../components/AuthHeader";
 import { styles } from "./styles";
-import SafeViewAndroid from "../SafeViewAndroid";
 import Input from "../../components/Input";
-import Checkbox from "../../components/Checkbox";
 import Button from "../../components/Button";
 import Separator from "../../components/Separator";
 import { useRouter } from 'expo-router';
-import { router } from "expo-router";
+import { account } from "../../lib/appwriteConfig"; 
+const Signin = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
 
-const  Signin = () => {
-  const [checked, setChecked] = useState(false)
+  const handleSignIn = async () => {
+    try {
+      const response = await account.createEmailPasswordSession(email, password);
+      router.push('/home'); // Navigate to home upon successful sign-in
+    } catch (error) {
+      console.error(error);
+
+      if (error.code === 401) {
+        Alert.alert("Sign In Failed", "Invalid email or password.");
+      } else {
+        Alert.alert("Sign In Failed", error.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const checkLoggedInUser = async () => {
+      try {
+        await account.get();
+        router.push('/home'); 
+      } catch (error) {
+      
+      }
+    };
+
+    checkLoggedInUser();
+  }, []);
+
   return (
     <View style={styles.AndroidSafeArea}>
-        <View style={styles.container}>
+      <View style={styles.container}>
         <AuthHeader title="Sign In" targetRoute="/splash"/>
-        <Input label="Email" placeholder="example@gmail.com"/>
-        <Input isPassword label="Password" placeholder="******"/>
-       
-        <Button style={styles.button} title="Sign in"  where="/home"/>
+        <Input label="Email" placeholder="example@gmail.com" value={email} onChangeText={setEmail} />
+        <Input isPassword label="Password" placeholder="******" value={password} onChangeText={setPassword} />
+        <Button style={styles.button} title="Sign in" onPress={handleSignIn} />
         <Separator />
-      
-        <Text style={styles.footerText}>Don't have an account?
-          <Text style={styles.footerLink}>Sign Up</Text>
+        <Text style={styles.footerText}>
+          Don't have an account? 
+          <Text style={styles.footerLink}> Sign Up</Text>
         </Text>
-        </View>
+      </View>
     </View>
   );
 }
 
-export default Signin
+export default Signin;
