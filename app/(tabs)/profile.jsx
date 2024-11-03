@@ -24,7 +24,7 @@ const Profile = () => {
           <ListItem title="My Listings" subtitle={`Already have ${num} listings`}/>
           <ListItem title="Settings" subtitle="Account, FAQ, Contact" onPress={() => router.push("/settings")}/>
         </View>
-        <Button title="Add New Listing"/>
+        <Button title="Add New Listing"  onPress={() => router.push("/createListing")}/>
       </View>
      
     </SafeAreaView>

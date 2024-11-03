@@ -1,13 +1,16 @@
 import { Tabs } from 'expo-router';
 import { Image } from 'react-native';
 import { colors } from '../../utils/colors';
+
 export default function TabsLayout() {
   return (
-    <Tabs screenOptions={{
-      headerShown: false,
-      tabBarShowLabel: false,
-      tabBarStyle: { borderTopColor: colors.lightGray },
-    }}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: { borderTopColor: colors.lightGray },
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{
@@ -21,7 +24,7 @@ export default function TabsLayout() {
               }
               style={{ width: 24, height: 24 }}
             />
-          )
+          ),
         }}
       />
       <Tabs.Screen
