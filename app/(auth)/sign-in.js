@@ -30,7 +30,8 @@ const Signin = () => {
   useEffect(() => {
     const checkLoggedInUser = async () => {
       try {
-        await account.get();
+        const user = await account.get();
+        console.log(user.$id)
         router.push('/home'); 
       } catch (error) {
       

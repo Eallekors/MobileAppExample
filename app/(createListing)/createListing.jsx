@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Alert, Image, Pressable, ActivityIndicator, ScrollView, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
@@ -9,11 +9,27 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { categories } from "../../data/categories";
 import { uploadFile, createDocument } from "../../lib/appwriteConfig"; // Assuming createDocument is set up in your Appwrite config
+import { account } from "../../lib/appwriteConfig";
 
 const CreateListing = () => {
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [values, setValues] = useState({});
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const getCurrentUser = async () => {
+            try {
+                const user = await account.get();
+                setUserId(user.$id); 
+            } catch (error) {
+                console.error("Failed to fetch user:", error);
+                Alert.alert("Failed to fetch user information");
+            }
+        };
+        
+        getCurrentUser();
+    }, []);
 
     const onBackPress = () => {
         router.back();
@@ -58,6 +74,7 @@ const CreateListing = () => {
                 category: values.category.id,
                 image: imageUrls[0], // Assign primary image URL for the required field
                 images: imageUrls.length > 1 ? imageUrls : undefined,
+                Author: userId 
             };
     
             console.log("Document data to submit:", documentData);
@@ -67,6 +84,8 @@ const CreateListing = () => {
     
             setValues({});
             setImages([]);
+
+            router.push('/home');
         } catch (error) {
             console.error("Error submitting listing:", error);
             Alert.alert("Failed to create listing");
@@ -83,8 +102,17 @@ const CreateListing = () => {
     };
 
     const onChange = (value, key) => {
-        setValues((val) => ({ ...val, [key]: value }));
+        // If the key is "price", prepend "$" to the value
+        if (key === "price") {
+            // Only allow numeric input
+            const priceValue = value.replace(/[^0-9.]/g, ''); // Removes any non-numeric character except period
+            setValues((val) => ({ ...val, [key]: priceValue ? `$ ${priceValue}` : '' }));
+        } else {
+            setValues((val) => ({ ...val, [key]: value }));
+        }
     };
+
+    
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>

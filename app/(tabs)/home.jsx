@@ -1,6 +1,7 @@
 import { Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from 'expo-router';
+import React, { useEffect, useState, useCallback } from 'react';
 import Header from '../../components/Header';
 import { styles } from './styles';
 import CategoryBox from '../../components/CategoryBox';
@@ -8,6 +9,8 @@ import ProductHomeItem from '../../components/ProductHomeItem';
 import { router } from 'expo-router';
 import { databases } from '../../lib/appwriteConfig'; // Import your Appwrite config
 import { categories } from '../../data/categories'
+
+
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState();
   const [keyword, setKeyword] = useState();
@@ -33,9 +36,16 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchProducts(); // Fetch products whenever the Home screen is focused
+      console.log('Home screen is focused!');
+
+      return () => {
+        console.log('Home screen is unfocused!');
+      };
+    }, []) // Empty dependency array ensures it only runs on focus/unfocus
+  );
 
   useEffect(() => {
     let updatedProducts = products;
