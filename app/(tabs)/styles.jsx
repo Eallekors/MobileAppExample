@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         padding: 24,
     },
     list: {
-        paddingVertical: 24
+        paddingVertical: 30
     },
     name:{
         fontSize: 20,
