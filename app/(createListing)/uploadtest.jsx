@@ -8,12 +8,14 @@ import { router } from "expo-router";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { categories } from "../../data/categories";
-import { uploadFile, createDocument } from "../../lib/appwriteConfig"; // Assuming createDocument is set up in your Appwrite config
+import { uploadFile } from "../../lib/appwriteConfig";
 
 const CreateListing = () => {
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [values, setValues] = useState({});
+
+    console.log('values =>', images);
 
     const onBackPress = () => {
         router.back();
@@ -22,7 +24,7 @@ const CreateListing = () => {
     const pickDocument = async () => {
         try {
             const result = await DocumentPicker.getDocumentAsync({
-                type: 'image/*',
+                type: 'image/*', // Only show images
             });
 
             if (result.canceled) {
@@ -32,51 +34,30 @@ const CreateListing = () => {
 
             const file = result.assets && result.assets[0];
             if (file) {
-                setImages((prevImages) => [...prevImages, file]);
+                setImages((prevImages) => [...prevImages, file]); // Store the entire file object in the array
+                console.log("Selected file:", file);
             } else {
                 console.log("No file selected");
             }
         } catch (err) {
-            console.error(err);
-        }
+            console.error(err); 
+        }    
     };
 
     const submitDocs = async () => {
         setLoading(true);
         try {
             const uploadPromises = images.map((file) => uploadFile(file, 'image'));
-            const imageUrls = await Promise.all(uploadPromises);
-    
-            console.log("Uploaded image URLs:", imageUrls);
-    
-            if (!imageUrls.length || !imageUrls[0]) {
-                throw new Error("No images uploaded successfully.");
-            }
-    
-            const documentData = {
-                ...values,
-                category: values.category.id,
-                image: imageUrls[0], // Assign primary image URL for the required field
-                images: imageUrls.length > 1 ? imageUrls : undefined,
-            };
-    
-            console.log("Document data to submit:", documentData);
-    
-            await createDocument(documentData);
-            Alert.alert("Listing created successfully!");
-    
-            setValues({});
-            setImages([]);
+            const uploadResults = await Promise.all(uploadPromises);
+            console.log("Uploaded files:", uploadResults);
+            Alert.alert("Documents submitted successfully!");
         } catch (error) {
-            console.error("Error submitting listing:", error);
-            Alert.alert("Failed to create listing");
+            console.error("Error uploading files:", error);
+            Alert.alert("Failed to submit documents");
         } finally {
             setLoading(false);
         }
     };
-    
-    
-    
 
     const onDeleteImage = (uri) => {
         setImages((prevImages) => prevImages.filter((image) => image.uri !== uri));
