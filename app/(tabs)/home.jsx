@@ -1,31 +1,31 @@
 import { Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SafeViewAndroid from '../SafeViewAndroid';
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import { styles } from './styles';
-import { categories } from '../../data/categories';
 import CategoryBox from '../../components/CategoryBox';
 import ProductHomeItem from '../../components/ProductHomeItem';
 import { router } from 'expo-router';
 import { databases } from '../../lib/appwriteConfig'; // Import your Appwrite config
-
+import { categories } from '../../data/categories'
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState();
   const [keyword, setKeyword] = useState();
-  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [products, setProducts] = useState([]); // All products
+  const [filteredProducts, setFilteredProducts] = useState([]); // Filtered products
   const [loading, setLoading] = useState(true);
 
   const DATABASE_ID = '6727c79b002607718e69';
-  const COLLECTION_ID = '6727c7ad0003a6a6d696'
-  // Function to fetch products from Appwrite
+  const COLLECTION_ID = '6727c7ad0003a6a6d696';
+
   const fetchProducts = async () => {
     try {
       setLoading(true);
       const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
       const productsData = response.documents;
 
-      setSelectedProducts(productsData);
+      setProducts(productsData);
+      setFilteredProducts(productsData); // Initialize filteredProducts with all products
     } catch (error) {
       console.error("Failed to fetch products:", error);
     } finally {
@@ -38,26 +38,18 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedCategory && !keyword) {
-      const updatedSelectedProducts = selectedProducts.filter((product) =>
-        product?.category === selectedCategory
-      );
-      setSelectedProducts(updatedSelectedProducts);
-    } else if (selectedCategory && keyword) {
-      const updatedSelectedProducts = selectedProducts.filter(
-        (product) =>
-          product?.category === selectedCategory && product?.title?.includes(keyword)
-      );
-      setSelectedProducts(updatedSelectedProducts);
-    } else if (!selectedCategory && keyword) {
-      const updatedSelectedProducts = selectedProducts.filter((product) =>
-        product?.title?.includes(keyword)
-      );
-      setSelectedProducts(updatedSelectedProducts);
-    } else if (!keyword && !selectedCategory) {
-      fetchProducts(); // Refresh all products
+    let updatedProducts = products;
+
+    if (selectedCategory) {
+      updatedProducts = updatedProducts.filter((product) => product?.category === selectedCategory);
     }
-  }, [selectedCategory, keyword]);
+
+    if (keyword) {
+      updatedProducts = updatedProducts.filter((product) => product?.title?.includes(keyword));
+    }
+
+    setFilteredProducts(updatedProducts); // Update the filtered products based on selection
+  }, [selectedCategory, keyword, products]);
 
   const renderCategoryItem = ({ item }) => {
     return (
@@ -82,7 +74,7 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1,backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <Header showSearch={true} onSearchKeyword={setKeyword} keyword={keyword} title="Find All You Need" />
 
@@ -100,7 +92,7 @@ const Home = () => {
         ) : (
           <FlatList
             numColumns={2}
-            data={selectedProducts}
+            data={filteredProducts} // Use filteredProducts here
             renderItem={renderProductItem}
             keyExtractor={(item) => String(item.$id)}
             ListFooterComponent={<View style={{ height: 250 }} />}
