@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Image, Text, View } from "react-native";
-import { styles } from "../AuthHeader/styles";
+import { styles } from "./styles";
 import { router } from "expo-router";
 
 const AuthHeader = ({ title, targetRoute }) => {

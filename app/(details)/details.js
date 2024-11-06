@@ -3,9 +3,9 @@ import { View, Text, ScrollView, Image, Pressable, Alert, Linking } from "react-
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 import { router, useLocalSearchParams } from 'expo-router';
-import Button from "../../components/Button";
-import ImageCarusel from "../../components/ImageCarusel";
-import { databases, account } from "../../lib/appwriteConfig";
+import Button from "@components/Button";
+import ImageCarusel from "@components/ImageCarusel";
+import { databases, account } from "@lib/appwriteConfig";
 
 const ProductDetails = () => {
     const { details } = useLocalSearchParams();
@@ -93,7 +93,7 @@ const ProductDetails = () => {
                     <Text style={styles.description}>{product.description}</Text>
                 </View>
                 <Pressable onPress={onBackPress} style={styles.backContainer}>
-                    <Image style={styles.backIcon} source={require("../../assets/icons/back.png")} />
+                    <Image style={styles.backIcon} source={require("@assets/icons/back.png")} />
                 </Pressable>
             </ScrollView>
             <View style={styles.footer}>
@@ -101,8 +101,8 @@ const ProductDetails = () => {
                     <Image
                         style={styles.bookmarkContainer}
                         source={isBookmarked
-                            ? require('../../assets/icons/bookmark_filled.png')
-                            : require('../../assets/icons/bookmark.png')
+                            ? require('@assets/icons/bookmark_filled.png')
+                            : require('@assets/icons/bookmark.png')
                         }
                     />
                 </Pressable>

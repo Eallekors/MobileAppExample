@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Alert, Image, Pressable, ActivityIndicator, ScrollView, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../../components/Header";
+import Header from "@components/Header";
 import { styles } from "./styles";
 import * as DocumentPicker from 'expo-document-picker';
 import { router } from "expo-router";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
-import { categories } from "../../data/categories";
-import { uploadFile, createDocument } from "../../lib/appwriteConfig"; // Assuming createDocument is set up in your Appwrite config
-import { account } from "../../lib/appwriteConfig";
+import Input from "@components/Input";
+import Button from "@components/Button";
+import { categories } from "@data/categories";
+import { uploadFile, createDocument } from "@lib/appwriteConfig"; // Assuming createDocument is set up in your Appwrite config
+import { account } from "@lib/appwriteConfig";
 
 const CreateListing = () => {
     const [images, setImages] = useState([]);
@@ -130,7 +130,7 @@ const CreateListing = () => {
                             <View key={index} style={styles.imageContainer}>
                                 <Image source={{ uri: file.uri }} style={styles.image} />
                                 <Pressable hitSlop={20} onPress={() => onDeleteImage(file.uri)}>
-                                    <Image style={styles.delete} source={require('../../assets/icons/close.png')} />
+                                    <Image style={styles.delete} source={require('@assets/icons/close.png')} />
                                 </Pressable>
                             </View>
                         ))}

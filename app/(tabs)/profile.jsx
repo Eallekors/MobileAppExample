@@ -3,11 +3,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { styles } from './profile_css';
-import Header from '../../components/Header';
-import ListItem from '../../components/ListItem';
-import Button from '../../components/Button';
+import Header from '@components/Header';
+import ListItem from '@components/ListItem';
+import Button from '@components/Button';
 import { router } from 'expo-router';
-import { account, databases } from "../../lib/appwriteConfig"; // Import global account instance
+import { account, databases } from "@lib/appwriteConfig"; // Import global account instance
 
 const Profile = () => {
   const [numListings, setNumListings] = useState(0); // State to store number of listings

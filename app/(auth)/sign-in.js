@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Alert } from "react-native";
-import AuthHeader from "../../components/AuthHeader";
+import AuthHeader from "@components/AuthHeader";
 import { styles } from "./styles";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
-import Separator from "../../components/Separator";
+import Input from "@components/Input";
+import Button from "@components/Button";
+import Separator from "@components/Separator";
 import { useRouter } from 'expo-router';
-import { account } from "../../lib/appwriteConfig"; 
+import { account } from "@lib/appwriteConfig"; 
 
 const Signin = () => {
   const [email, setEmail] = useState('');

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Text, View, Image, Pressable } from "react-native";
-import Button from "../../components/Button";
+import Button from "@components/Button";
 import { styles } from "./styles";
 import { router } from "expo-router";
-import { account } from "../../lib/appwriteConfig"; 
+import { account } from "@lib/appwriteConfig"; 
 const Splash = () => {
     useEffect(() => {
         const checkLoggedInUser = async () => {
@@ -23,7 +23,7 @@ const Splash = () => {
             <Image
                 resizeMode="contain"
                 style={styles.image}
-                source={require("../../assets/images/splash_image.png")}
+                source={require("@assets/images/splash_image.png")}
             />
            
             <View style={styles.titleContainer}>

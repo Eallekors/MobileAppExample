@@ -2,11 +2,11 @@ import { Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
 import React, { useState, useEffect, useCallback } from 'react';
-import Header from '../../components/Header';
+import Header from '@components/Header';
 import { styles } from './styles';
-import ProductHomeItem from '../../components/ProductHomeItem';
+import ProductHomeItem from '@components/ProductHomeItem';
 import { router } from 'expo-router';
-import { account, databases } from '../../lib/appwriteConfig'; // Import Appwrite config
+import { account, databases } from '@lib/appwriteConfig'; // Import Appwrite config
 
 const ProfileListings = () => {
   const [products, setProducts] = useState([]); // All products

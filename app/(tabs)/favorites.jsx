@@ -2,9 +2,9 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Text, View, FlatList, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';
-import { account, databases } from '../../lib/appwriteConfig';
-import FavoriteItem from '../../components/FavoriteItem';
-import Header from '../../components/Header';
+import { account, databases } from '@lib/appwriteConfig';
+import FavoriteItem from '@components/FavoriteItem';
+import Header from '@components/Header';
 import { Query } from 'react-native-appwrite';
 import { useFocusEffect } from 'expo-router';
 
@@ -44,26 +44,25 @@ const Favorites = () => {
   
     useFocusEffect(
       useCallback(() => {
-        fetchFavorites(); // Fetch products whenever the Home screen is focused
+        if (userId) {
+          fetchFavorites();  // Fetch favorites when the screen is focused and userId is available
+        } else {
+          console.log('User ID is not available');
+        }
         console.log('Favorites screen is focused!');
-  
+    
         return () => {
           console.log('Favorites screen is unfocused!');
         };
-      }, []) // Empty dependency array ensures it only runs on focus/unfocus
+      }, [userId]) // Add userId as a dependency
     );
-
+    
 
   useEffect(() => {
     fetchUserId();
   }, [fetchUserId]);
 
-  useEffect(() => {
-    if (userId) {
-      fetchFavorites();
-    }
-  }, [userId, fetchFavorites]);
-
+ 
   // Remove from bookmarks
   const removeFromFavorites = async (productId) => {
     try {

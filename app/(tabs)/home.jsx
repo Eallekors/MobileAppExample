@@ -2,13 +2,13 @@ import { Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
 import React, { useEffect, useState, useCallback } from 'react';
-import Header from '../../components/Header';
+import Header from '@components/Header';
 import { styles } from './styles';
-import CategoryBox from '../../components/CategoryBox';
-import ProductHomeItem from '../../components/ProductHomeItem';
+import CategoryBox from '@components/CategoryBox';
+import ProductHomeItem from '@components/ProductHomeItem';
 import { router } from 'expo-router';
-import { databases } from '../../lib/appwriteConfig'; // Import your Appwrite config
-import { categories } from '../../data/categories'
+import { databases } from '@lib/appwriteConfig'; // Import your Appwrite config
+import { categories } from '@data/categories'
 
 
 const Home = () => {

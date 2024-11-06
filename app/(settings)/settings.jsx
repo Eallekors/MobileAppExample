@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Linking, Image, Pressable, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../../components/Header";
-import ListItem from "../../components/ListItem";
+import Header from "@components/Header";
+import ListItem from "@components/ListItem";
 import { styles } from "./styles";
-import EditableBox from "../../components/EditableBox";
-import Button from "../../components/Button";
-import Footer from "../../components/Footer";
-import { account } from "../../lib/appwriteConfig";  // Assuming you're using Appwrite for authentication
+import EditableBox from "@components/EditableBox";
+import Button from "@components/Button";
+import Footer from "@components/Footer";
+import { account } from "@lib/appwriteConfig";  // Assuming you're using Appwrite for authentication
 
 const Settings = () => {
     const [editing, setEditing] = useState(false);
@@ -69,7 +69,7 @@ const Settings = () => {
                 <View style={styles.sectionHeader}>
                     <Text style={styles.sectionTitle}>Personal Information</Text>
                     <Pressable onPress={onEditPress}>
-                        <Image style={styles.icon} source={require('../../assets/icons/edit.png')} />
+                        <Image style={styles.icon} source={require('@assets/icons/edit.png')} />
                     </Pressable>
                 </View>
                 <EditableBox onChangeText={(v) => onChange('name', v)} label="Name" value={values.name} editable={editing} />
