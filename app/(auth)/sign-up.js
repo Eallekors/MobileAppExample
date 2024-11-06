@@ -43,7 +43,7 @@ const Signup = () => {
       router.push('/home'); 
       
     } catch (error) {
-      Alert.alert("Sign Up Failed", error.message);
+      Alert.alert("Email is already in use");
     }
   };
 
