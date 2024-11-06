@@ -1,6 +1,7 @@
 import { Text, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useFocusEffect } from 'expo-router';
 import { styles } from './profile_css';
 import Header from '../../components/Header';
 import ListItem from '../../components/ListItem';
@@ -38,9 +39,16 @@ const Profile = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUserListings(); // Fetch user's listings on component mount
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserListings(); // Fetch products whenever the Home screen is focused
+      console.log('Profile screen is focused!');
+
+      return () => {
+        console.log('Profile screen is unfocused!');
+      };
+    }, []) // Empty dependency array ensures it only runs on focus/unfocus
+  );
 
   const onLogout = async () => {
     try {
