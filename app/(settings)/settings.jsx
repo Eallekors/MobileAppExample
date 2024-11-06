@@ -45,7 +45,7 @@ const Settings = () => {
                 await account.updateName(values.name); // Update name
             }
             if (values.email !== '') {
-                if (!password) {
+                if (!password ) {
                     Alert.alert("Error", "Please provide your password to update your email.");
                     return;
                 }
