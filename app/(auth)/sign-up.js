@@ -38,7 +38,10 @@ const Signup = () => {
     try {
       const response = await account.create(ID.unique(), email, password, name);
       //Alert.alert("Sign Up Successful", `User ID: ${response.$id}`);
+       await account.createEmailPasswordSession(email, password);  // Log the user in immediately
+   
       router.push('/home'); 
+      
     } catch (error) {
       Alert.alert("Sign Up Failed", error.message);
     }

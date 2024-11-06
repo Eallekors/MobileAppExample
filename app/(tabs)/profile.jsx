@@ -6,14 +6,20 @@ import Header from '../../components/Header';
 import ListItem from '../../components/ListItem';
 import Button from '../../components/Button';
 import { router } from 'expo-router';
-import { account,databases } from "../../lib/appwriteConfig"; // Import global account instance
+import { account, databases } from "../../lib/appwriteConfig"; // Import global account instance
 
 const Profile = () => {
   const [numListings, setNumListings] = useState(0); // State to store number of listings
+  const [user, setUser] = useState(null); // State to store the user data
 
   const fetchUserListings = async () => {
     try {
       const user = await account.get(); // Fetch current user
+      if (!user || !user.$id) {
+        Alert.alert("Not authenticated", "Please log in to view your listings.");
+        return;
+      }
+
       const userId = user.$id; // Get user ID
       const DATABASE_ID = '6727c79b002607718e69'; // Your database ID
       const COLLECTION_ID = '6727c7ad0003a6a6d696'; // Your collection ID
@@ -25,6 +31,7 @@ const Profile = () => {
       // Filter products to count only the user's listings
       const userListingsCount = productsData.filter((product) => product.Author === userId).length; // Adjust if needed
       setNumListings(userListingsCount); // Set the number of listings
+      setUser(user); // Store user data for profile
     } catch (error) {
       console.error("Failed to fetch user listings:", error);
       Alert.alert("Error", "Could not fetch listings.");
@@ -51,8 +58,12 @@ const Profile = () => {
       <View style={styles.container}>
         <View style={styles.content}>
           <Header title="Profile" showLogout onLogout={onLogout} />
-          <Text style={styles.name}>User name</Text>
-          <Text style={styles.email}>User email</Text>
+          {user && (
+            <>
+              <Text style={styles.name}>{user.name}</Text>
+              <Text style={styles.email}>{user.email}</Text>
+            </>
+          )}
           <ListItem title="My Listings" subtitle={`Already have ${numListings} listings`} onPress={() => router.push("/listings")} />
           <ListItem title="Settings" subtitle="Account, FAQ, Contact" onPress={() => router.push("/settings")} />
         </View>
