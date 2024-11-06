@@ -24,24 +24,20 @@ This project is a React Native app that allows users to view, bookmark, and mana
 ## Setup Instructions
 
 To get started with this project, follow these steps:
-
+```bash
 ### 1. Clone the repository
 
-```bash
 git clone https://github.com/Eallekors/MobileAppExample
+
 cd MobileAppExample
-```
+
 ### 2. Install dependencies
-```bash
+
 npm install
-```
 
 ### 3. Run the app
-To run the app locally on your emulator or device:
-
-```bash
 
 npx expo start
-```
+
 
 
