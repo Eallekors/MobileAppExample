@@ -1,35 +1,90 @@
-import React from "react";
-import { View, Text, ScrollView, Image, Pressable, Linking } from "react-native";
+import React, { useCallback, useState, useEffect } from "react";
+import { View, Text, ScrollView, Image, Pressable, Alert, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { styles} from "./styles";
-import { router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router';
-import Button from "../../components/Button";
-import ImageCarusel from "../../components/ImageCarusel"
+import { styles } from "./styles";
+import { router, useLocalSearchParams } from 'expo-router';
+import Button from "@components/Button";
+import ImageCarusel from "@components/ImageCarusel";
+import { databases, account } from "@lib/appwriteConfig";
+
 const ProductDetails = () => {
     const { details } = useLocalSearchParams();
-    const product = JSON.parse(details)
+    const product = JSON.parse(details);
+
+    const [userId, setUserId] = useState(null);
+    const [isBookmarked, setIsBookmarked] = useState(false);
+    const [productState, setProductState] = useState(product);
+
+    // Fetch the user ID and set the initial bookmark state
+    useEffect(() => {
+        const fetchUserId = async () => {
+            try {
+                const user = await account.get();
+                const userId = user.$id;
+                setUserId(userId);
+                // After fetching the userId, check if it's bookmarked
+                setIsBookmarked(productState.Bookmarked.includes(userId));
+            } catch (error) {
+                console.error("Failed to fetch user ID:", error);
+            }
+        };
+    
+        fetchUserId();
+    }, [productState.Bookmarked]);  
 
     const onBackPress = () => {
         router.back();
-    }
+    };
 
     const onContact = () => {
-       
-        //phone call
-        let phone = 'real phone number'
-        Linking.openURL(`tel:${phone}`)
-        //console.log(phone);
-        //email
-        let email = 'real email'
-        Linking.openURL(`mailto:${email}`)
-    }
+        const phone = 'real phone number';
+        Linking.openURL(`tel:${phone}`);
+        
+        const email = 'real email';
+        Linking.openURL(`mailto:${email}`);
+    };
+    
+    const onBookmarkPress = useCallback(async () => {
+        if (!userId) return;
+    
+        try {
+            const updatedBookmarked = isBookmarked
+                ? productState.Bookmarked.filter(id => id !== userId)
+                : [...productState.Bookmarked, userId];
+            
+            // Immediate UI feedback
+            setIsBookmarked(!isBookmarked);
+    
+            // Update Appwrite
+            await databases.updateDocument(
+                productState.$databaseId,
+                productState.$collectionId,
+                productState.$id,
+                { Bookmarked: updatedBookmarked }
+            );
+    
+            // Update the state to reflect changes
+            setProductState({
+                ...productState,
+                Bookmarked: updatedBookmarked,
+            });
+    
+           
+        } catch (error) {
+            console.error("Failed to update bookmark status:", error);
+            setIsBookmarked(isBookmarked); // Revert on error
+            Alert.alert("Error", "Could not update the bookmark status. Please try again later.");
+        }
+    }, [productState, isBookmarked, userId]);
+    
+
     return (
         <SafeAreaView style={styles.save}>
             <ScrollView>
                 {product?.images?.length ? (
-                    <ImageCarusel images={product?.images} />
+                    <ImageCarusel images={product.images} />
                 ) : (
-                    <Image style={styles.image} source={{uri: product.image}}/>
+                    <Image style={styles.image} source={{ uri: product.image }} />
                 )}
                 
                 <View style={styles.content}>
@@ -38,16 +93,23 @@ const ProductDetails = () => {
                     <Text style={styles.description}>{product.description}</Text>
                 </View>
                 <Pressable onPress={onBackPress} style={styles.backContainer}>
-                    <Image style={styles.backIcon} source={require("../../assets/icons/back.png")}/>
+                    <Image style={styles.backIcon} source={require("@assets/icons/back.png")} />
                 </Pressable>
             </ScrollView>
             <View style={styles.footer}>
-                <Pressable>
-                    <Image style={styles.bookmarkContainer} source={require('../../assets/icons/bookmark.png')}/>
+                <Pressable onPress={onBookmarkPress}>
+                    <Image
+                        style={styles.bookmarkContainer}
+                        source={isBookmarked
+                            ? require('@assets/icons/bookmark_filled.png')
+                            : require('@assets/icons/bookmark.png')
+                        }
+                    />
                 </Pressable>
-                <Button onPress={onContact} style={styles.button} title="Contact Seller"/>
+                <Button onPress={onContact} style={styles.button} title="Contact Seller" />
             </View>
         </SafeAreaView>
-    )
-}
+    );
+};
+
 export default ProductDetails;

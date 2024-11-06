@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.erki.allekors.MobileAppExample"
+      "package": "com.Voco.IKEA"
     },
     "web": {
       "bundler": "metro",

@@ -41,3 +41,4 @@ export const products = [
         price: '$ 120.00'
     },
 ]
+ 

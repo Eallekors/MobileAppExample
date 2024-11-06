@@ -18,11 +18,5 @@ export const styles = StyleSheet.create({
     email:{
         fontSize: 14,
         color: colors.grey
-    },
-    emptyText: {
-        fontSize: 16,
-        color: '#888',
-        textAlign: 'center',
-        marginTop: 20,
-      },
+    }
 })

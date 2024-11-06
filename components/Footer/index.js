@@ -9,19 +9,19 @@ const Footer = () => {
     <View style={styles.footerContainer}>
       <TouchableOpacity onPress={() => router.push('/(tabs)/home')}>
         <Image
-          source={require('../../assets/icons/home.png')}
+          source={require('@assets/icons/home.png')}
           style={styles.icon}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push('/(tabs)/favorites')}>
         <Image
-          source={require('../../assets/icons/favorites.png')}
+          source={require('@assets/icons/favorites.png')}
           style={styles.icon}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push('/(tabs)/profile')}>
         <Image
-          source={require('../../assets/icons/profile_focused.png')}
+          source={require('@assets/icons/profile_focused.png')}
           style={styles.icon}
         />
       </TouchableOpacity>

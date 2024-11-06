@@ -23,7 +23,7 @@ const Input = ({label, placeholder, isPassword, value, onChangeText,style, optio
                 <Pressable onPress={() => setPickerModalVisible(true)} style={styles.inputContainer}>
                 { value ? (<Text style={[styles.placeholder, style]}>{value?.title}</Text>)
                  : (<Text style={[styles.placeholder, style]}>{placeholder}</Text>)}
-                    <Image style={styles.arrow} source={require('../../assets/icons/arrow.png')}/> 
+                    <Image style={styles.arrow} source={require('@assets/icons/arrow.png')}/> 
                 </Pressable>
             ) : (
             <View style={styles.inputContainer}>
@@ -31,7 +31,7 @@ const Input = ({label, placeholder, isPassword, value, onChangeText,style, optio
                 {
                     isPassword ? (
                         <Pressable onPress={onEyePress}>
-                            <Image style={styles.eye} source={isPasswordVisible ? require('../../assets/eye.png') : require('../../assets/eye-hide.png')  } />
+                            <Image style={styles.eye} source={isPasswordVisible ? require('@assets/eye.png') : require('@assets/eye-hide.png')  } />
                         </Pressable>
                     ) : null
                 }
