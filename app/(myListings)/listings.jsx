@@ -1,106 +1,111 @@
-import { Text, View, FlatList, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Text, View, FlatList, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFocusEffect } from 'expo-router';
-import React, { useState, useEffect, useCallback } from 'react';
-import Header from '@components/Header';
 import { styles } from './styles';
-import ProductHomeItem from '@components/ProductHomeItem';
-import { router } from 'expo-router';
-import { account, databases } from '@lib/appwriteConfig'; // Import Appwrite config
+import { account, databases } from '@lib/appwriteConfig';
+import FavoriteItem from '@components/FavoriteItem';
+import Header from '@components/Header';
+import { Query } from 'react-native-appwrite';
+import { useFocusEffect } from 'expo-router';
 
-const ProfileListings = () => {
-  const [products, setProducts] = useState([]); // All products
-  const [filteredProducts, setFilteredProducts] = useState([]); // User's products
-  const [loading, setLoading] = useState(true);
-  const [userId, setUserId] = useState(null); // To store user ID
+const Favorites = () => {
+  const [favorites, setFavorites] = useState([]);
+  const [userId, setUserId] = useState(null);
 
-  const DATABASE_ID = '6727c79b002607718e69';
-  const COLLECTION_ID = '6727c7ad0003a6a6d696';
-
-  const onBackPress = () => {
-    router.back();
-};
-  // Fetch current user's ID
-  const fetchCurrentUser = async () => {
+  // Fetch the logged-in user's ID
+  const fetchUserId = useCallback(async () => {
     try {
       const user = await account.get();
-      setUserId(user.$id); // Store user ID
+      setUserId(user.$id);
     } catch (error) {
-      console.error('Failed to fetch user:', error);
+      console.error("Error fetching user ID:", error);
+      Alert.alert("Error", "Failed to retrieve user information.");
     }
-  };
+  }, []);
 
-  // Fetch user's listings from Appwrite
-  const fetchUserListings = async () => {
-    if (!userId) return; // Only fetch if userId is available
+  // Fetch only bookmarked items
+  const fetchFavorites = useCallback(async () => {
+    if (!userId) return; // Ensure userId is available
+
     try {
-      setLoading(true);
-      const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
-      const productsData = response.documents;
+      const response = await databases.listDocuments(
+        '6727c79b002607718e69', // Database ID
+        '6727c7ad0003a6a6d696', // Collection ID
+        [Query.contains("Author", [userId])] // Filter items where Bookmarked contains userId
+      );
 
-      // Filter products to only show user's own listings
-      const userProducts = productsData.filter((product) => product.Author === userId); // Adjust the field name if necessary
-
-      setFilteredProducts(userProducts); // Update the state with filtered products
+      setFavorites(response.documents);
     } catch (error) {
-      console.error('Failed to fetch user listings:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchCurrentUser(); // Fetch current user
-      return () => {
-        setProducts([]); // Clear products when leaving the screen to avoid stale data
-        setFilteredProducts([]);
-      };
-    }, [])
-  );
-
-  // Watch userId for changes and fetch listings accordingly
-  useEffect(() => {
-    if (userId) {
-      fetchUserListings(); // Fetch user's own listings if userId is available
+      console.error("Error fetching favorites:", error);
+      Alert.alert("Error", "Failed to load favorite items.");
     }
   }, [userId]);
 
-  const renderProductItem = ({ item }) => {
-    const onProductPress = (product) => {
-      /* router.push({
-        pathname: '/details',
-        params: { details: JSON.stringify(product) },
-      }); */
-    };
+  useFocusEffect(
+    useCallback(() => {
+      if (userId) {
+        fetchFavorites();  // Fetch favorites when the screen is focused and userId is available
+      }
+      return () => {};
+    }, [userId]) // Add userId as a dependency
+  );
 
-    return <ProductHomeItem onPress={() => onProductPress(item)} {...item} />;
+  useEffect(() => {
+    fetchUserId();
+  }, [fetchUserId]);
+
+  // Confirm and delete document from the database
+  const confirmAndRemoveFromFavorites = (productId) => {
+    Alert.alert(
+      "Delete Product",
+      "Are you sure you want to delete this item?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Delete", style: "destructive", onPress: () => removeFromFavorites(productId) }
+      ]
+    );
+  };
+
+  // Remove from favorites and delete document from the database
+  const removeFromFavorites = async (productId) => {
+    try {
+      await databases.deleteDocument(
+        '6727c79b002607718e69', // Database ID
+        '6727c7ad0003a6a6d696', // Collection ID
+        productId
+      );
+
+      // Update local favorites state
+      setFavorites(favorites.filter(item => item.$id !== productId));
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      Alert.alert("Error", "Could not delete the item.");
+    }
+  };
+
+  const renderItem = ({ item }) => {
+    return (
+      <FavoriteItem 
+        {...item}
+        onPress={() => confirmAndRemoveFromFavorites(item.$id)}
+        screen="listings"
+      />
+    );
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ backgroundColor: '#fff', height: '100%' }}>
       <View style={styles.container}>
-        <Header showBack={true} onBackPress={onBackPress} title="Your Listings" />
-
-        {loading ? (
-          <ActivityIndicator size="large" color="#000" />
-        ) : (
-          <FlatList
-            numColumns={2}
-            data={filteredProducts} // Use filteredProducts here (user's own listings)
-            renderItem={renderProductItem}
-            keyExtractor={(item) => String(item.$id)}
-            ListFooterComponent={<View style={{ height: 250 }} />}
-            ListEmptyComponent={
-              <View style={{ alignItems: 'center', marginTop: 50 }}>
-                <Text style={{ fontSize: 18, color: 'gray' }}>You have no listings yet.</Text>
-              </View>
-            }
-          />
-        )}
+        <Header title="My listings" />
+        <FlatList 
+          data={favorites} 
+          renderItem={renderItem}
+          keyExtractor={(item) => String(item.$id)} 
+          ListEmptyComponent={<Text style={styles.emptyText}>No listings found</Text>}
+        />
       </View>
     </SafeAreaView>
   );
 };
 
-export default ProfileListings;
+export default Favorites;
