@@ -4,6 +4,7 @@ import AuthHeader from "@components/AuthHeader";
 import { styles } from "./styles";
 import Input from "@components/Input";
 import Button from "@components/Button";
+import GoogleLogin from "@components/GoogleLogin";
 import Separator from "@components/Separator";
 import { useRouter } from 'expo-router';
 import { account } from "@lib/appwriteConfig"; 
@@ -72,11 +73,8 @@ const Signin = () => {
           <Text style={{ color: 'red', marginTop: 10 }}>{errorMessage}</Text>
         ) : null}
         <Button style={styles.button} title="Sign in" onPress={handleSignIn} />
-        
-     
-       
-        
-        <Separator />
+        <Separator text="Or sign in with" />
+        <GoogleLogin />
         <Text style={styles.footerText}>
           Don't have an account? 
           <Text style={styles.footerLink}> Sign Up</Text>

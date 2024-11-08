@@ -6,6 +6,7 @@ import Input from "@components/Input";
 import Checkbox from "@components/Checkbox";
 import Button from "@components/Button";
 import Separator from "@components/Separator";
+import GoogleLogin from "@components/GoogleLogin";
 import { account } from "@lib/appwriteConfig"; 
 import { ID } from "react-native-appwrite"; 
 import { router } from "expo-router";
@@ -59,7 +60,8 @@ const Signup = () => {
           <Text style={styles.agreeText}>I agree with <Text style={styles.agreeTextBold}>Terms</Text> & <Text style={styles.agreeTextBold}>Privacy</Text></Text>
         </View>
         <Button style={styles.button} title="Sign Up" onPress={handleSignUp} />
-        <Separator />
+        <Separator text="Or sign in with" />
+        <GoogleLogin />
         <Text style={styles.footerText}>Already have an account? <Text style={styles.footerLink}>Sign In</Text></Text>
       </View>
     </View>
