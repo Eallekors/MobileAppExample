@@ -1,6 +1,6 @@
 import { StyleSheet,Platform, StatusBar } from "react-native";
 
-import { colors } from "../../utils/colors"
+import { colors } from "@utils/colors"
 
 export const styles = StyleSheet.create({
     container: { 
@@ -35,7 +35,10 @@ export const styles = StyleSheet.create({
         textAlign: 'center'
     },
     footerLink: {
-        fontWeight: 'bold'
-    }
+        color: colors.blue,
+        fontWeight: 'bold',
+        marginTop: 5 , 
+    },
+    
    
 })

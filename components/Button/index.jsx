@@ -7,7 +7,7 @@ const Button = ({title, where, style, onPress}) => {
 
     const handlePress = () => {
         if (onPress) {
-            onPress(); // Trigger the external onPress if provided
+            onPress(); 
         }
         if (where){
         router.push(where); 

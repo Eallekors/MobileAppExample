@@ -2,24 +2,34 @@ import { Dimensions, StyleSheet } from "react-native";
 import { colors } from "@utils/colors";
 
 const { width } = Dimensions.get('window')
-//console.log('Width =>', width)
 
 export const styles = StyleSheet.create({
     container: {
-        margin: 8,
-        
+        marginHorizontal: 12,
+        paddingVertical: 16,
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderBottomColor: colors.borderColor
     },
     title: {
         color: colors.textGray,
         paddingVertical: 8
     },
     image: {
-        width: (width - 76) / 2 ,
-        height: 220,
-        borderRadius: 8,
+        width: 100 ,
+        height: 100,
+        borderRadius: 10,
+        marginRight: 20
     },
     price: {
         color: colors.black,
         paddingBottom: 8
+    },
+    content: {
+        flex: 1
+    },
+    icon: {
+        width: 24,
+        height: 24
     }
 })

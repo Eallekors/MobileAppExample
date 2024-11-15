@@ -15,14 +15,12 @@ const ProductDetails = () => {
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [productState, setProductState] = useState(product);
 
-    // Fetch the user ID and set the initial bookmark state
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const user = await account.get();
                 const userId = user.$id;
                 setUserId(userId);
-                // After fetching the userId, check if it's bookmarked
                 setIsBookmarked(productState.Bookmarked.includes(userId));
             } catch (error) {
                 console.error("Failed to fetch user ID:", error);
@@ -52,10 +50,8 @@ const ProductDetails = () => {
                 ? productState.Bookmarked.filter(id => id !== userId)
                 : [...productState.Bookmarked, userId];
             
-            // Immediate UI feedback
             setIsBookmarked(!isBookmarked);
     
-            // Update Appwrite
             await databases.updateDocument(
                 productState.$databaseId,
                 productState.$collectionId,
@@ -63,7 +59,6 @@ const ProductDetails = () => {
                 { Bookmarked: updatedBookmarked }
             );
     
-            // Update the state to reflect changes
             setProductState({
                 ...productState,
                 Bookmarked: updatedBookmarked,
@@ -72,7 +67,7 @@ const ProductDetails = () => {
            
         } catch (error) {
             console.error("Failed to update bookmark status:", error);
-            setIsBookmarked(isBookmarked); // Revert on error
+            setIsBookmarked(isBookmarked); 
             Alert.alert("Error", "Could not update the bookmark status. Please try again later.");
         }
     }, [productState, isBookmarked, userId]);

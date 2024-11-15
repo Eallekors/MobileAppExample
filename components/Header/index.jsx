@@ -14,11 +14,11 @@ const Header = ({title, onBackPress, onLogout, showBack, showSearch, showLogout,
             <View style={styles.container}>
                 { showBack ? (
                     <Pressable hitSlop={20} onPress={onBackPress}>
-                        <Image style={styles.icon} source={require('../../assets/icons/back.png')}/>
+                        <Image style={styles.icon} source={require('@assets/icons/back.png')}/>
                     </Pressable>
                     ) : showSearch ? (
                         <Pressable hitSlop={20} onPress={onSearch}>
-                            <Image style={styles.icon} source={require('../../assets/icons/search.png')} />
+                            <Image style={styles.icon} source={require('@assets/icons/search.png')} />
                         </Pressable>
                     ) : <View style={styles.space}/>
                     }
@@ -26,7 +26,7 @@ const Header = ({title, onBackPress, onLogout, showBack, showSearch, showLogout,
                 {
                 showLogout ? (
                     <Pressable hitSlop={20} onPress={onLogout}>
-                        <Image style={styles.icon} source={require('../../assets/icons/logout.png')} />
+                        <Image style={styles.icon} source={require('@assets/icons/logout.png')} />
                     </Pressable>
                 ) : <View style={styles.space}/>
                 }

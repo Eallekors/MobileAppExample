@@ -8,7 +8,7 @@ import { router } from "expo-router";
 import Input from "@components/Input";
 import Button from "@components/Button";
 import { categories } from "@data/categories";
-import { uploadFile, createDocument } from "@lib/appwriteConfig"; // Assuming createDocument is set up in your Appwrite config
+import { uploadFile, createDocument } from "@lib/appwriteConfig"; 
 import { account } from "@lib/appwriteConfig";
 
 const CreateListing = () => {
@@ -26,8 +26,7 @@ const CreateListing = () => {
                 console.error("Failed to fetch user:", error);
                 Alert.alert("Failed to fetch user information");
             }
-        };
-        
+        };     
         getCurrentUser();
     }, []);
 
@@ -40,17 +39,13 @@ const CreateListing = () => {
             const result = await DocumentPicker.getDocumentAsync({
                 type: 'image/*',
             });
-
             if (result.canceled) {
-                console.log("User cancelled document picking");
-                return;
+                 return;
             }
-
             const file = result.assets && result.assets[0];
             if (file) {
                 setImages((prevImages) => [...prevImages, file]);
             } else {
-                console.log("No file selected");
             }
         } catch (err) {
             console.error(err);
@@ -63,8 +58,7 @@ const CreateListing = () => {
             const uploadPromises = images.map((file) => uploadFile(file, 'image'));
             const imageUrls = await Promise.all(uploadPromises);
     
-            console.log("Uploaded image URLs:", imageUrls);
-    
+           
             if (!imageUrls.length || !imageUrls[0]) {
                 throw new Error("No images uploaded successfully.");
             }
@@ -72,19 +66,16 @@ const CreateListing = () => {
             const documentData = {
                 ...values,
                 category: values.category.id,
-                image: imageUrls[0], // Assign primary image URL for the required field
+                image: imageUrls[0], 
                 images: imageUrls.length > 1 ? imageUrls : undefined,
                 Author: userId 
             };
     
-            console.log("Document data to submit:", documentData);
-    
+         
             await createDocument(documentData);
             Alert.alert("Listing created successfully!");
-    
             setValues({});
             setImages([]);
-
             router.push('/home');
         } catch (error) {
             console.error("Error submitting listing:", error);
@@ -102,10 +93,8 @@ const CreateListing = () => {
     };
 
     const onChange = (value, key) => {
-        // If the key is "price", prepend "$" to the value
         if (key === "price") {
-            // Only allow numeric input
-            const priceValue = value.replace(/[^0-9.]/g, ''); // Removes any non-numeric character except period
+            const priceValue = value.replace(/[^0-9.]/g, '');
             setValues((val) => ({ ...val, [key]: priceValue ? `$ ${priceValue}` : '' }));
         } else {
             setValues((val) => ({ ...val, [key]: value }));

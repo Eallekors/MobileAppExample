@@ -12,7 +12,7 @@ const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [userId, setUserId] = useState(null);
 
-  // Fetch the logged-in user's ID
+
   const fetchUserId = useCallback(async () => {
     try {
       const user = await account.get();
@@ -23,15 +23,15 @@ const Favorites = () => {
     }
   }, []);
 
-  // Fetch only bookmarked items
+ 
   const fetchFavorites = useCallback(async () => {
-    if (!userId) return; // Ensure userId is available
+    if (!userId) return;
 
     try {
       const response = await databases.listDocuments(
-        '6727c79b002607718e69', // Database ID
-        '6727c7ad0003a6a6d696', // Collection ID
-        [Query.contains("Author", [userId])] // Filter items where Bookmarked contains userId
+        '6727c79b002607718e69', 
+        '6727c7ad0003a6a6d696', 
+        [Query.contains("Author", [userId])] 
       );
 
       setFavorites(response.documents);
@@ -44,17 +44,17 @@ const Favorites = () => {
   useFocusEffect(
     useCallback(() => {
       if (userId) {
-        fetchFavorites();  // Fetch favorites when the screen is focused and userId is available
+        fetchFavorites();  
       }
       return () => {};
-    }, [userId]) // Add userId as a dependency
+    }, [userId]) 
   );
 
   useEffect(() => {
     fetchUserId();
   }, [fetchUserId]);
 
-  // Confirm and delete document from the database
+  
   const confirmAndRemoveFromFavorites = (productId) => {
     Alert.alert(
       "Delete Product",
@@ -66,7 +66,7 @@ const Favorites = () => {
     );
   };
 
-  // Remove from favorites and delete document from the database
+  
   const removeFromFavorites = async (productId) => {
     try {
       await databases.deleteDocument(
@@ -75,7 +75,7 @@ const Favorites = () => {
         productId
       );
 
-      // Update local favorites state
+      
       setFavorites(favorites.filter(item => item.$id !== productId));
     } catch (error) {
       console.error("Error deleting item:", error);

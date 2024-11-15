@@ -4,16 +4,14 @@ import Button from "@components/Button";
 import { styles } from "./styles";
 import { router } from "expo-router";
 import { account } from "@lib/appwriteConfig"; 
-
 const Splash = () => {
     useEffect(() => {
         const checkLoggedInUser = async () => {
             try {
                 await account.get();
                 router.push("/home");
-            } catch (error) {  
-                console.log("No active session found");
-            }
+            } catch (error) {
+             }
         };
 
         checkLoggedInUser();

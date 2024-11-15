@@ -19,8 +19,8 @@ export default function TabsLayout() {
             <Image
               source={
                 focused
-                  ? require('../../assets/icons/home_focused.png')
-                  : require('../../assets/icons/home.png')
+                  ? require('@assets/icons/home_focused.png')
+                  : require('@assets/icons/home.png')
               }
               style={{ width: 24, height: 24 }}
             />
@@ -35,8 +35,8 @@ export default function TabsLayout() {
             <Image
               source={
                 focused
-                  ? require('../../assets/icons/favorites_focused.png')
-                  : require('../../assets/icons/favorites.png')
+                  ? require('@assets/icons/favorites_focused.png')
+                  : require('@assets/icons/favorites.png')
               }
               style={{ width: 24, height: 24 }}
             />
@@ -51,8 +51,8 @@ export default function TabsLayout() {
             <Image
               source={
                 focused
-                  ? require('../../assets/icons/profile_focused.png')
-                  : require('../../assets/icons/profile.png')
+                  ? require('@assets/icons/profile_focused.png')
+                  : require('@assets/icons/profile.png')
               }
               style={{ width: 24, height: 24 }}
             />

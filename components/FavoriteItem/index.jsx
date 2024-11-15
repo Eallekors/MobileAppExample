@@ -14,8 +14,8 @@ const FavoriteItem = ({ title, image, price, onPress, screen }) => {
                 style={styles.icon}
                 source={
                     screen === "listings"
-                        ? require('../../assets/icons/trash.png')
-                        : require('../../assets/icons/close.png')
+                        ? require('@assets/icons/trash.png')
+                        : require('@assets/icons/close.png')
                 }
             />
         </Pressable>

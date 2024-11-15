@@ -7,19 +7,20 @@ import { styles } from "./styles";
 import EditableBox from "@components/EditableBox";
 import Button from "@components/Button";
 import Footer from "@components/Footer";
-import { account } from "@lib/appwriteConfig";  // Assuming you're using Appwrite for authentication
+import { account } from "@lib/appwriteConfig";  
 
 const Settings = () => {
     const [editing, setEditing] = useState(false);
     const [values, setValues] = useState({ name: '', email: '' });
-    const [password, setPassword] = useState(''); // Password input for updating email
+    const [password, setPassword] = useState(''); 
+    const [originalEmail, setOriginalEmail] = useState('');
 
-    // Fetch user data when component mounts
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const user = await account.get();  // Get the logged-in user's data
-                setValues({ name: user.name || 'User', email: user.email || 'user@mail.com' }); // Update state with user's name and email
+                const user = await account.get(); 
+                setValues({ name: user.name || 'User', email: user.email || 'user@mail.com' });
+                setOriginalEmail(user.email); 
             } catch (error) {
                 console.error("Failed to fetch user data:", error);
             }
@@ -40,21 +41,34 @@ const Settings = () => {
         setEditing(false);
 
         try {
-            // Update the name and email using Appwrite
+           
             if (values.name !== '') {
-                await account.updateName(values.name); // Update name
+                await account.updateName(values.name); 
             }
-            if (values.email !== '') {
-                if (!password ) {
+
+           
+            if (values.email !== originalEmail) {
+                if (!password) {
                     Alert.alert("Error", "Please provide your password to update your email.");
+                    setEditing(true); 
                     return;
                 }
-                await account.updateEmail(values.email, password); // Update email with password
+                await account.updateEmail(values.email, password); 
             }
+
             Alert.alert("Success", "Your information has been updated.");
         } catch (error) {
             console.error("Failed to update user information:", error);
-            Alert.alert("Error", "An error occurred while updating your information.");
+
+            if (error.code === 401) {
+                Alert.alert("Error", "Incorrect password. Please try again.");
+            } else if (error.code === 400) {
+                Alert.alert("Error", "Incorrect password. Please try again.");
+            } else {
+                Alert.alert("Error", "An error occurred while updating your information.");
+            }
+
+            setEditing(true);
         }
     };
 
@@ -75,8 +89,8 @@ const Settings = () => {
                 <EditableBox onChangeText={(v) => onChange('name', v)} label="Name" value={values.name} editable={editing} />
                 <EditableBox onChangeText={(v) => onChange('email', v)} label="Email" value={values.email} editable={editing} />
                 
-                {/* Only show the password field if editing */}
-                {editing && (
+              
+                {editing && values.email !== originalEmail && (
                     <EditableBox 
                         onChangeText={setPassword} 
                         label="Password" 

@@ -12,7 +12,7 @@ const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [userId, setUserId] = useState(null);
 
-  // Fetch the logged-in user's ID
+ 
   const fetchUserId = useCallback(async () => {
     try {
       const user = await account.get();
@@ -23,16 +23,16 @@ const Favorites = () => {
     }
   }, []);
 
-  // Fetch only bookmarked items
+  
 
   const fetchFavorites = useCallback(async () => {
-      if (!userId) return; // Ensure userId is available
+      if (!userId) return; 
   
       try {
         const response = await databases.listDocuments(
           '6727c79b002607718e69', // Database ID
           '6727c7ad0003a6a6d696', // Collection ID
-          [Query.contains("Bookmarked", [userId])] // Filter items where Bookmarked contains userId
+          [Query.contains("Bookmarked", [userId])] 
         );
   
         setFavorites(response.documents);
@@ -45,16 +45,13 @@ const Favorites = () => {
     useFocusEffect(
       useCallback(() => {
         if (userId) {
-          fetchFavorites();  // Fetch favorites when the screen is focused and userId is available
+          fetchFavorites();  
         } else {
-          console.log('User ID is not available');
-        }
-        console.log('Favorites screen is focused!');
-    
+         }
+       
         return () => {
-          console.log('Favorites screen is unfocused!');
         };
-      }, [userId]) // Add userId as a dependency
+      }, [userId])
     );
     
 
@@ -63,7 +60,7 @@ const Favorites = () => {
   }, [fetchUserId]);
 
  
-  // Remove from bookmarks
+ 
   const removeFromFavorites = async (productId) => {
     try {
       const product = favorites.find(item => item.$id === productId);
@@ -76,7 +73,7 @@ const Favorites = () => {
         { Bookmarked: updatedBookmarked }
       );
 
-      // Update local favorites state
+      
       setFavorites(favorites.filter(item => item.$id !== productId));
     } catch (error) {
       console.error("Error removing from favorites:", error);

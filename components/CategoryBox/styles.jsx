@@ -4,7 +4,7 @@ import { colors } from "@utils/colors";
 
 export const styles = StyleSheet.create({
     container: {
-        marginVertical: 12, // Depends on phone???
+        marginVertical: 12, 
         marginHorizontal: 8,
         flexDirection: 'column',
         justifyContent: 'center',

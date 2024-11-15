@@ -8,7 +8,6 @@ const {width} = Dimensions.get('window')
 const ImageCarusel = ({images}) => {
     const [activeIndex, setActiveIndex] = useState(0)
     const handleScrollEnd = (event) => {
-        console.log('event => ', event.nativeEvent)
         const horizontalOffset = event.nativeEvent.contentOffset.x
         const index = Math.round(horizontalOffset / width)
        setActiveIndex(index)

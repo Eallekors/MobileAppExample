@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, TouchableOpacity } from "react-native";
 import AuthHeader from "@components/AuthHeader";
 import { styles } from "./styles";
 import Input from "@components/Input";
@@ -38,8 +38,7 @@ const Signup = () => {
 
     try {
       const response = await account.create(ID.unique(), email, password, name);
-      //Alert.alert("Sign Up Successful", `User ID: ${response.$id}`);
-       await account.createEmailPasswordSession(email, password);  // Log the user in immediately
+       await account.createEmailPasswordSession(email, password);  
    
       router.push('/home'); 
       
@@ -62,7 +61,11 @@ const Signup = () => {
         <Button style={styles.button} title="Sign Up" onPress={handleSignUp} />
         <Separator text="Or sign in with" />
         <GoogleLogin />
-        <Text style={styles.footerText}>Already have an account? <Text style={styles.footerLink}>Sign In</Text></Text>
+        <Text style={styles.footerText}>Already have an account? 
+        <TouchableOpacity onPress={() => router.push('/sign-in')} style={styles.footerButton}>
+            <Text style={ styles.footerLink}> Sign In</Text>
+          </TouchableOpacity>
+        </Text>
       </View>
     </View>
   ); 

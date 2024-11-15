@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { colors } from "../../utils/colors";
+import { colors } from "@utils/colors";
 const {height} = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
@@ -32,9 +32,7 @@ export const styles = StyleSheet.create({
     footer:{
         padding: 24,
         flexDirection: 'row',
-        alignItems: 'center',
-        //marginRight: 75
-        
+        alignItems: 'center',    
     },
     save: {
         backgroundColor: colors.white,

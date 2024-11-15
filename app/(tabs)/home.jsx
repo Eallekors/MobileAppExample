@@ -7,15 +7,15 @@ import { styles } from './styles';
 import CategoryBox from '@components/CategoryBox';
 import ProductHomeItem from '@components/ProductHomeItem';
 import { router } from 'expo-router';
-import { databases } from '@lib/appwriteConfig'; // Import your Appwrite config
+import { databases } from '@lib/appwriteConfig';
 import { categories } from '@data/categories'
 
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState();
   const [keyword, setKeyword] = useState();
-  const [products, setProducts] = useState([]); // All products
-  const [filteredProducts, setFilteredProducts] = useState([]); // Filtered products
+  const [products, setProducts] = useState([]); 
+  const [filteredProducts, setFilteredProducts] = useState([]); 
   const [loading, setLoading] = useState(true);
 
   const DATABASE_ID = '6727c79b002607718e69';
@@ -28,7 +28,7 @@ const Home = () => {
       const productsData = response.documents;
 
       setProducts(productsData);
-      setFilteredProducts(productsData); // Initialize filteredProducts with all products
+      setFilteredProducts(productsData); 
     } catch (error) {
       console.error("Failed to fetch products:", error);
     } finally {
@@ -38,28 +38,34 @@ const Home = () => {
 
   useFocusEffect(
     useCallback(() => {
-      fetchProducts(); // Fetch products whenever the Home screen is focused
-      console.log('Home screen is focused!');
+      fetchProducts(); 
+     
 
       return () => {
-        console.log('Home screen is unfocused!');
+       
       };
-    }, []) // Empty dependency array ensures it only runs on focus/unfocus
+    }, []) 
   );
 
   useEffect(() => {
     let updatedProducts = products;
-
+  
     if (selectedCategory) {
-      updatedProducts = updatedProducts.filter((product) => product?.category === selectedCategory);
+      updatedProducts = updatedProducts.filter(
+        (product) => product?.category === selectedCategory
+      );
     }
-
+  
     if (keyword) {
-      updatedProducts = updatedProducts.filter((product) => product?.title?.includes(keyword));
+      const lowerKeyword = keyword.toLowerCase();
+      updatedProducts = updatedProducts.filter((product) =>
+        product?.title?.toLowerCase().includes(lowerKeyword)
+      );
     }
-
-    setFilteredProducts(updatedProducts); // Update the filtered products based on selection
+  
+    setFilteredProducts(updatedProducts);
   }, [selectedCategory, keyword, products]);
+  
 
   const renderCategoryItem = ({ item }) => {
     return (
@@ -102,7 +108,7 @@ const Home = () => {
         ) : (
           <FlatList
             numColumns={2}
-            data={filteredProducts} // Use filteredProducts here
+            data={filteredProducts} 
             renderItem={renderProductItem}
             keyExtractor={(item) => String(item.$id)}
             ListFooterComponent={<View style={{ height: 250 }} />}
